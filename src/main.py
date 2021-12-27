@@ -19,6 +19,7 @@ from types import SimpleNamespace
 import browser
 import socket
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings as QWebSettings
+from ctypes import windll
 #from PyQt5.QtWebKit import QWebSettings
 #from PyQt5.QtWebKitWidgets import QWebView, QWebInspector
 #from PyQt5.QtWidgets import QApplication, QSplitter, QVBoxLayout
@@ -440,6 +441,8 @@ class MainWindow(QMainWindow):
 
         if request.toggleOn():
             self.browser.showFullScreen()
+            h = windll.user32.FindWindowA(b'Shell_SecondTrayWnd', None)
+            windll.user32.ShowWindow(h, 0)
             #browser.setParent(None)
             self.statusBar().hide()
             self.navtb.hide()
@@ -447,6 +450,8 @@ class MainWindow(QMainWindow):
             self.tabs.tabBar().hide()
             self.Maximized = True
         else:
+            h = windll.user32.FindWindowA(b'Shell_SecondTrayWnd', None)
+            windll.user32.ShowWindow(h, 9)
             self.browser.showNormal()
             self.statusBar().show()
             self.navtb.show()
@@ -458,6 +463,8 @@ class MainWindow(QMainWindow):
 
     def on_Escape(self):
         if self.Maximized:
+            h = windll.user32.FindWindowA(b'Shell_SecondTrayWnd', None)
+            windll.user32.ShowWindow(h, 9)
             self.browser.showNormal()
             self.statusBar().show()
             self.navtb.show()
